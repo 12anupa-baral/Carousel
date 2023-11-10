@@ -1,24 +1,3 @@
-/* .carousel {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-}
-
-.carousel-slide {
-    display: flex;
-    float: left;
-}
-
-img {
-    width: 100%;
-    height: 100%;
-}
-
-button {
-    margin: 10px;
-} */
-
 .carousel {
     width: 100%;
     display: flex;
