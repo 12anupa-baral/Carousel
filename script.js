@@ -1,27 +1,45 @@
-let slideIndex = 0;
-const slides = document.getElementsByClassName("carousel-slide");
+const prev = document.querySelector(".prev-button");
+const next = document.querySelector(".next-button");
+const carousel = document.querySelector(".carousel");
+const images = document.querySelectorAll(".carousel img");
+let currentIndex = 0;
 
-function showSlides() {
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
+prev.addEventListener("click", () => {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  slideCarousel();
+});
+
+next.addEventListener("click", () => {
+  currentIndex = (currentIndex + 1) % images.length;
+  slideCarousel();
+});
+
+function slideCarousel() {
+  const imageWidth = images[0].clientWidth;
+  const offset = -currentIndex * imageWidth;
+  applyTransform(offset);
+
+  if (isAtEdge()) {
+    resetCarousel();
   }
-  slides[slideIndex].style.display = "block";
 }
 
-document.querySelector(".prev-button").addEventListener("click", () => {
-  slideIndex -= 1;
-  if (slideIndex < 0) {
-    slideIndex = slides.length - 1;
-  }
-  showSlides();
-});
+function applyTransform(offset) {
+  carousel.style.transition = "transform 0.5s ease";
+  carousel.style.transform = `translateX(${offset}px)`;
+}
 
-document.querySelector(".next-button").addEventListener("click", () => {
-  slideIndex += 1;
-  if (slideIndex >= slides.length) {
-    slideIndex = 0;
-  }
-  showSlides();
-});
+function isAtEdge() {
+  return currentIndex === 0 || currentIndex === images.length;
+}
 
-showSlides();
+function resetCarousel() {
+  setTimeout(() => {
+    carousel.style.transition = "none";
+    carousel.style.transform = `translateX(0px)`;
+    currentIndex = 0;
+    setTimeout(() => {
+      carousel.style.transition = "transform 0.4s ease";
+    });
+  }, 500);
+}
